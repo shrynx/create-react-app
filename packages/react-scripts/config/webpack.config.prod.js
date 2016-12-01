@@ -134,6 +134,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.(sass|scss)/,
+          /\.(jpe?g|png|gif|svg)$/i,
           /\.json$/
         ],
         loader: 'url',
@@ -177,6 +178,14 @@ module.exports = {
          exclude: /\.module\.(sass|scss)$/,
          loader: ExtractTextPlugin.extract(['css?minimize', 'sass']),
       },
+			// Added image support
+			{
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+            'file?hash=sha512&digest=hex&name=static/media/[name].[hash:8].[ext]',
+            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+    	},
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
