@@ -44,8 +44,16 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
 }
 
+// custom port
+var customPort;
+var packageConfig = require(paths.appPackageJson);
+if (packageConfig.react_super_scripts) {
+  if (packageConfig.react_super_scripts.port) {
+      customPort = packageConfig.react_super_scripts.port
+  }
+}
 // Tools like Cloud9 rely on this.
-var DEFAULT_PORT = process.env.PORT || 3000;
+var DEFAULT_PORT = process.env.PORT || customPort || 3000;
 var compiler;
 var handleCompile;
 
