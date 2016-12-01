@@ -35,12 +35,21 @@ var nodePaths = (process.env.NODE_PATH || '')
   .filter(Boolean)
   .map(resolveApp);
 
+var customEntryFile;
+var packageJson = require(resolveApp('package.json'));
+
+if (packageJson.react_super_scripts) {
+  if (packageJson.react_super_scripts.appEntry) {
+      customEntryFile = packageJson.react_super_scripts.appEntry
+  }
+}
+
 // config after eject: we're in ./config/
 module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appIndexJs: resolveApp(customEntryFile || 'src/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -60,7 +69,7 @@ module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appIndexJs: resolveApp(customEntryFile || 'src/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -73,11 +82,18 @@ module.exports = {
 
 // config before publish: we're in ./packages/react-scripts/config/
 if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
+  var prePackageJson = require(resolveOwn('../package.json'));
+
+  if (prePackageJson.react_super_scripts) {
+    if (prePackageJson.react_super_scripts.appEntry) {
+        customEntryFile = prePackageJson.react_super_scripts.appEntry
+    }
+  }
   module.exports = {
     appBuild: resolveOwn('../../../build'),
     appPublic: resolveOwn('../template/public'),
     appHtml: resolveOwn('../template/public/index.html'),
-    appIndexJs: resolveOwn('../template/src/index.js'),
+    appIndexJs: resolveOwn(customEntryFile || '../template/src/index.js'),
     appPackageJson: resolveOwn('../package.json'),
     appSrc: resolveOwn('../template/src'),
     yarnLockFile: resolveOwn('../template/yarn.lock'),
