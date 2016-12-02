@@ -57,6 +57,9 @@ if (env['process.env'].NODE_ENV !== '"production"') {
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
+
+// config for CSS, sass and less modules
+var cssModulesConf = 'css?modules&minimize&importLoaders=1'
 module.exports = {
   // Don't attempt to continue if there are any errors.
   bail: true,
