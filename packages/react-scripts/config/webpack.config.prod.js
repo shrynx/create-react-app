@@ -134,6 +134,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.(sass|scss)/,
+					/\.less/,
           /\.(jpe?g|png|gif|svg)$/i,
           /\.json$/
         ],

@@ -128,6 +128,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.(sass|scss)/,
+					/\.less/,
           /\.json$/
         ],
         loader: 'url',
