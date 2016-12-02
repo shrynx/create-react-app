@@ -28,6 +28,8 @@ var publicPath = '/';
 var publicUrl = '';
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl);
+
+// config for CSS, sass and less modules 
 var cssModulesConfDev ='css?modules&minimize&importLoaders=1&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]'
 
 // This is the development configuration.
@@ -182,12 +184,12 @@ module.exports = {
       },
       // Added support for sass modules
       {
-          test: /\.module\.css$/,
+          test: /\.module\.less/,
           loaders: ['style', cssModulesConfDev, 'sass'],
       },
       // Added support for less modules
       {
-          test: /\.module\.css$/,
+          test: /\.module\.(sass|scss)/,
           loaders: ['style', cssModulesConfDev, 'less'],
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify

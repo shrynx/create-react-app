@@ -185,6 +185,21 @@ module.exports = {
           exclude: /\.module\.less$/,
           loader: ExtractTextPlugin.extract(['css?minimize', 'less']),
       },
+			// Added support for CSS modules
+			{
+				 test: /\.module\.css$/,
+				 loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'postcss']),
+			},
+			// Added support for sass modules
+      {
+          test: /\.module\.(sass|scss)/,
+          loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'sass']),
+      },
+			// Added support for less modules
+			{
+          test: /\.module\.less/,
+          loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'less']),
+      },
 			// Added image support
 			{
         test: /\.(jpe?g|png|gif|svg)$/i,
