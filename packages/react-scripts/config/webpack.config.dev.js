@@ -167,6 +167,12 @@ module.exports = {
           exclude: /\.module\.(sass|scss)$/,
           loaders: ['style', 'css', 'sass'],
       },
+      // Added less support
+      {
+          test: /\.less/,
+          exclude: /\.module\.less$/,
+          loaders: ['style', 'css', 'less'],
+      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
