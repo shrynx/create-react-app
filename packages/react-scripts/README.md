@@ -1,6 +1,6 @@
-# ⚡ react <sup>-super-scripts</sup> ⚡
+<a href='https://github.com/shrynx/react-super-scripts'><p align='center'><img src='http://i.imgur.com/ikPF2J7.png' height='100' ></p></a>
 
-![Imgur](http://i.imgur.com/a5MW7i3.png)
+# ⚡ react <sup>-super-scripts</sup> ⚡
 
 **This package adds super powers and allows custom configs without ejecting [Create React App](https://github.com/facebookincubator/create-react-app)**
 
@@ -8,9 +8,7 @@
 
 #### Create bootstraped React apps simply by
 
-```
-create-react-app my-app --scripts-version react-super-scripts
-```
+`create-react-app my-app --scripts-version react-super-scripts`
 
 <sup>* If you don't have Create React App, then</sup>
 <sup>`npm -g install create-react-app`</sup>
