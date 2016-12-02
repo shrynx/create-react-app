@@ -154,7 +154,7 @@ module.exports = {
         loader: 'babel',
         // @remove-on-eject-begin
         query: {
-          babelrc: false,
+          babelrc: (paths.customBabelrc ? true : false),
           presets: [require.resolve('babel-preset-react-app')],
         },
         // @remove-on-eject-end
@@ -224,7 +224,7 @@ module.exports = {
   eslint: {
     // TODO: consider separate config for production,
     // e.g. to enable no-console and no-debugger only in production.
-    configFile: path.join(__dirname, '../.eslintrc'),
+    configFile: (paths.customEslint ? paths.customEslint : path.join(__dirname, '../.eslintrc')),
     useEslintrc: false
   },
   // @remove-on-eject-end
