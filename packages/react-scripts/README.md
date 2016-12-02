@@ -83,7 +83,7 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 	     a default entry point (src/index.js) is already provided in package.json.
 	* **Note**: if you don't provide appEntry in your package.json it will default to scr/index.js
 * **Want moarrr ?**
-	* [Please tell me](https://github.com/shrynx/create-react-app/issues)
+	* [Please tell me](https://github.com/shrynx/react-super-scripts/issues)
 
 ## Plans
 * **Support this fork to be always in sync with `create-react-app` and `react-scripts`**
