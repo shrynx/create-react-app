@@ -47,7 +47,7 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 ### Others
 * **Custom port**
 	* You can specify custom port for running development server.
-	* In you package.json specify the port number to port property
+	* In your package.json specify the port number to port property
 		of react_super_scripts field.
 	Your package.json should look like
        ```js
@@ -66,7 +66,7 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 
 * **Custom entry point**
 	* You can specify app entry point for wepack.
-	* In you package.json specify the file path to appEntry property
+	* In your package.json specify the file path to appEntry property
 		of react_super_scripts field.
 	Your package.json should look like
        ```js
