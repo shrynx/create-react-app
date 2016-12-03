@@ -2,7 +2,7 @@
   "name": "react-super-scripts",
   "version": "0.1.2",
   "author": "Shriyans Bhatnagar <shriyansbhatnagar@gmail.com>",
-  "description": "Configuration and scripts for Create React App (with super powers).",
+  "description": "adds super powers to create-react-app and allows custom configs without ejecting",
   "repository": "shrynx/react-super-scripts",
   "license": "BSD-3-Clause",
   "engines": {
