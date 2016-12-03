@@ -31,9 +31,12 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
     'eject': 'react-scripts eject'
   };
 
-	// add react_super_scripts object and add appEntry to it.
+	// add react_super_scripts object
 	appPackage.react_super_scripts = {}
+  // add app entry to react_super_scripts
   appPackage.react_super_scripts.appEntry = 'src/index.js'
+  // add port to react_super_scripts
+  appPackage.react_super_scripts.port = '3000'
 
   fs.writeFileSync(
     path.join(appPath, 'package.json'),

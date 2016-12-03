@@ -1,15 +1,15 @@
 {
   "name": "react-super-scripts",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "Shriyans Bhatnagar <shriyansbhatnagar@gmail.com>",
-  "description": "Configuration and scripts for Create React App (with super powers).",
-  "repository": "shrynx/create-react-app",
+  "description": "adds super powers to create-react-app and allows custom configs without ejecting",
+  "repository": "shrynx/react-super-scripts",
   "license": "BSD-3-Clause",
   "engines": {
     "node": ">=4"
   },
   "bugs": {
-    "url": "https://github.com/shrynx/create-react-app/issues"
+    "url": "https://github.com/shrynx/react-super-scripts/issues"
   },
   "files": [
     ".babelrc",
@@ -30,6 +30,7 @@
     "babel-jest": "17.0.2",
     "babel-loader": "6.2.7",
     "babel-preset-react-app": "^1.0.0",
+    "babel-preset-react-hmre": "^1.1.1",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "chalk": "1.1.3",
     "connect-history-api-fallback": "1.3.0",
@@ -45,6 +46,7 @@
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.4.1",
     "extract-text-webpack-plugin": "1.0.1",
+    "file-exists": "^2.0.0",
     "file-loader": "0.9.0",
     "filesize": "3.3.0",
     "fs-extra": "0.30.0",
@@ -54,6 +56,8 @@
     "image-webpack-loader": "^3.0.0",
     "jest": "17.0.2",
     "json-loader": "0.5.4",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "node-sass": "^3.13.0",
     "object-assign": "4.1.0",
     "path-exists": "2.1.0",

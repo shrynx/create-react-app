@@ -11,6 +11,7 @@
 
 var path = require('path');
 var fs = require('fs');
+var fileExists = require('file-exists');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
@@ -44,6 +45,15 @@ if (packageJson.react_super_scripts) {
   }
 }
 
+var customEslint;
+if (fileExists(resolveApp('.eslintrc'))) {
+  customEslint = resolveApp('.eslintrc')
+}
+
+var customBabelrc;
+if (fileExists(resolveApp('.babelrc'))) {
+  customBabelrc = resolveApp('.babelrc')
+}
 // config after eject: we're in ./config/
 module.exports = {
   appBuild: resolveApp('build'),
@@ -56,7 +66,9 @@ module.exports = {
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
   ownNodeModules: resolveApp('node_modules'),
-  nodePaths: nodePaths
+  nodePaths: nodePaths,
+  customBabelrc: customBabelrc,
+  customEslint: customEslint
 };
 
 // @remove-on-eject-begin
@@ -77,7 +89,9 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   // this is empty with npm3 but node resolution searches higher anyway:
   ownNodeModules: resolveOwn('../node_modules'),
-  nodePaths: nodePaths
+  nodePaths: nodePaths,
+  customBabelrc: customBabelrc,
+  customEslint: customEslint
 };
 
 // config before publish: we're in ./packages/react-scripts/config/
@@ -89,6 +103,15 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
         customEntryFile = prePackageJson.react_super_scripts.appEntry
     }
   }
+
+  if (fileExists(resolveOwn('../.eslintrc'))) {
+    customEslint = resolveOwn('../.eslintrc')
+  }
+
+  if (fileExists(resolveOwn('../.babelrc'))) {
+    customBabelrc = resolveOwn('../.babelrc')
+  }
+
   module.exports = {
     appBuild: resolveOwn('../../../build'),
     appPublic: resolveOwn('../template/public'),
@@ -100,7 +123,9 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
     testsSetup: resolveOwn('../template/src/setupTests.js'),
     appNodeModules: resolveOwn('../node_modules'),
     ownNodeModules: resolveOwn('../node_modules'),
-    nodePaths: nodePaths
+    nodePaths: nodePaths,
+    customBabelrc: customBabelrc,
+    customEslint: customEslint
   };
 }
 // @remove-on-eject-end

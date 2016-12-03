@@ -1,4 +1,74 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+# ⚡ react <sup>-super-scripts</sup> ⚡
+
+**This package adds super powers and allows custom configs without ejecting [Create React App](https://github.com/facebookincubator/create-react-app)**
+
+## Features
+Apart from features provided by [CRA](https://github.com/facebookincubator/create-react-app#whats-inside), this package adds more goodies listed below.
+
+### Webpack
+* **Webpack Dasboard**
+	* you got to love webpack dashboard
+* **Hot module replacement**
+	*  supports HMR for js files too.
+* **Supports SASS and LESS**
+	* write styles in css, sass or less
+* **Webpack image loader**
+	* for compressing images
+
+### Babel
+* **Custom babel config**
+	* Want to use latest and greatest of javasript, no worries
+		include custom babel presets by installing packages
+		and adding them to **.babelrc** in root directory of the app
+	* **Note**: This will completly override existing presets.
+		You will need to create the .babelrc file inside your app folder
+		and remember to add **react-hmre** preset to babel development.
+		This script relies on react-hmre for hot module replacement.
+
+### ESLint
+* **Custom eslint config**
+	* Not happy with the default linting rules,
+		simply include custom eslint by installing packages
+		and adding them to **.eslintrc** in root directory of the app
+	* **Note**: This will completly override existing linting rules.
+		You will need to create the .eslintrc file inside your app folder.
+
+### Others
+* **Custom port**
+	* You can specify custom port for running development server.
+	* In your package.json specify the port number to port property
+		of react_super_scripts field.
+	Your package.json should look like
+       ```js
+        {
+		    ...
+
+		     "react_super_scripts": {
+			  "port": 3000
+		     }
+        }
+      ```
+	     a default port (3000) is already provided in package.json.
+	* **Note**: if you have specified PORT in your environment variable
+	then environment variable will override your custom port from package.json.
+	Also if you don't provide port in your package.json and nor in your environment variable it will default to 3000.
+
+* **Custom entry point**
+	* You can specify app entry point for wepack.
+	* In your package.json specify the file path to appEntry property
+		of react_super_scripts field.
+	Your package.json should look like
+       ```js
+        {
+		    ...
+
+		     "react_super_scripts": {
+			  "appEntry": "src/index.js"
+		     }
+        }
+      ```
+	     a default entry point (src/index.js) is already provided in package.json.
+	* **Note**: if you don't provide appEntry in your package.json it will default to scr/index.js
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
@@ -884,7 +954,7 @@ This feature is experimental and still [has major usage issues](https://github.c
 
 ## Developing Components in Isolation
 
-Usually, in an app, you have a lot of UI components, and each of them has many different states. 
+Usually, in an app, you have a lot of UI components, and each of them has many different states.
 For an example, a simple button component could have following states:
 
 * With a text label.

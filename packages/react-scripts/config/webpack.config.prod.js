@@ -57,6 +57,9 @@ if (env['process.env'].NODE_ENV !== '"production"') {
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
+
+// config for CSS, sass and less modules
+var cssModulesConf = 'css?modules&minimize&importLoaders=1'
 module.exports = {
   // Don't attempt to continue if there are any errors.
   bail: true,
@@ -134,6 +137,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.(sass|scss)/,
+					/\.less/,
           /\.(jpe?g|png|gif|svg)$/i,
           /\.json$/
         ],
@@ -150,7 +154,7 @@ module.exports = {
         loader: 'babel',
         // @remove-on-eject-begin
         query: {
-          babelrc: false,
+          babelrc: (paths.customBabelrc ? true : false),
           presets: [require.resolve('babel-preset-react-app')],
         },
         // @remove-on-eject-end
@@ -178,6 +182,27 @@ module.exports = {
          exclude: /\.module\.(sass|scss)$/,
          loader: ExtractTextPlugin.extract(['css?minimize', 'sass']),
       },
+      // Added support for less
+      {
+          test: /\.less/,
+          exclude: /\.module\.less$/,
+          loader: ExtractTextPlugin.extract(['css?minimize', 'less']),
+      },
+			// Added support for CSS modules
+			{
+				 test: /\.module\.css$/,
+				 loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'postcss']),
+			},
+			// Added support for sass modules
+      {
+          test: /\.module\.(sass|scss)/,
+          loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'sass']),
+      },
+			// Added support for less modules
+			{
+          test: /\.module\.less/,
+          loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'less']),
+      },
 			// Added image support
 			{
         test: /\.(jpe?g|png|gif|svg)$/i,
@@ -199,7 +224,7 @@ module.exports = {
   eslint: {
     // TODO: consider separate config for production,
     // e.g. to enable no-console and no-debugger only in production.
-    configFile: path.join(__dirname, '../.eslintrc'),
+    configFile: (paths.customEslint ? paths.customEslint : path.join(__dirname, '../.eslintrc')),
     useEslintrc: false
   },
   // @remove-on-eject-end
