@@ -1,5 +1,8 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var OfflinePlugin = require('offline-plugin');
+
 var paths = require('../config/paths');
+var superScriptConfigOptions = require('./superScriptConfigOptions')
 
 var cssModulesConf = 'css?modules&minimize&importLoaders=1'
 var cssModulesConfDev = cssModulesConf+'&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]'
@@ -12,6 +15,38 @@ var findLoaderType = function(param, type) {
 
 var excludeFromUrlLoader = function(param, fileType) {
   findLoaderType(param, 'url').exclude.push(fileType)
+}
+
+var offlineConfig = function(param) {
+  if (param.env === 'prod') {
+    if (superScriptConfigOptions('offline')) {
+      param.config.plugins.push(
+        new OfflinePlugin({
+          relativePaths: false,
+          publicPath: '/',
+
+          // No need to cache .htaccess. See http://mxs.is/googmp,
+          // this is applied before any match in `caches` section
+          excludes: ['.htaccess'],
+
+          caches: {
+            main: [':rest:'],
+
+            // All chunks marked as `additional`, loaded after main section
+            // and do not prevent SW to install. Change to `optional` if
+            // do not want them to be preloaded at all (cached only when first loaded)
+            additional: ['*.chunk.js'],
+          },
+
+          // Removes warning for about `additional` section usage
+          safeToUseOptionalCaches: true,
+
+          AppCache: false,
+        })
+      )
+    }
+  }
+  return param
 }
 
 var esLintConfig = function(param) {
@@ -150,7 +185,7 @@ var compose = function () {
 };
 
 var customWebpackConfig = function(config, env) {
-  var customConfig = compose(esLintConfig, babelConfig, imageConfig, lessModulesConfig, sassModulesConfig, cssModulesConfig, lessConfig, sassConfig)
+  var customConfig = compose(offlineConfig, esLintConfig, babelConfig, imageConfig, lessModulesConfig, sassModulesConfig, cssModulesConfig, lessConfig, sassConfig)
   var params = {config: config, env: env}
 	return customConfig(params).config
 }
