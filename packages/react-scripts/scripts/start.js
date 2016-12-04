@@ -27,7 +27,7 @@ var clearConsole = require('react-dev-utils/clearConsole');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 // var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var getProcessForPort = require('react-dev-utils/getProcessForPort');
-var openBrowser = require('react-dev-utils/openBrowser');
+var openBrowser = require('../utils/openBrowser');
 var prompt = require('react-dev-utils/prompt');
 // var pathExists = require('path-exists');
 var config = require('../config/webpack.config.dev');
@@ -46,7 +46,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // custom port
-var customPort = superScriptConfigOptions("port");
+var customPort = superScriptConfigOptions('port');
 
 // Tools like Cloud9 rely on this.
 var DEFAULT_PORT = process.env.PORT || customPort || 3000;
