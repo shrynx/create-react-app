@@ -8,12 +8,46 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 ### Webpack
 * **Webpack Dasboard**
 	* you got to love webpack dashboard
+	* Webpack dashboard is turned on by default,but it is configurable
+	* you can disable it able it setting dashboard as false in react_super_script in package.json
+	```js
+	{
+	        ...
+
+		"react_super_scripts": {
+		 "dashbaord": false
+		}
+	 }
+     ```
 * **Hot module replacement**
 	*  supports HMR for js files too.
 * **Supports SASS and LESS**
 	* write styles in css, sass or less
 * **Webpack image loader**
 	* for compressing images
+* **Offline Plugin**
+	* You can generate service worker for your web app, simply by adding offline to true
+	in react_super_script in package.json
+	```js
+	 {
+	 ...
+
+		"react_super_scripts": {
+		 "offline": true
+		}
+	 }
+  ```
+	* **Note**: You would also need to require offline plugin in your app entry point. it is always
+	recommended to do so for production build.
+	At the end of your app entry file just add these lines of code.
+	```js
+	// src/index.js
+		...
+
+		if (process.env.NODE_ENV === 'production') {
+		  require('offline-plugin/runtime').install();
+		}
+	```
 
 ### Babel
 * **Custom babel config**
@@ -69,6 +103,33 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
       ```
 	     a default entry point (src/index.js) is already provided in package.json.
 	* **Note**: if you don't provide appEntry in your package.json it will default to scr/index.js
+
+* **Custom development browser**
+	* You can specify your browser for automatically running during development.
+	* In your package.json specify the browser to defaultBrowser property
+		of react_super_scripts field.
+	Your package.json should look like
+       ```js
+        {
+		    ...
+
+		     "react_super_scripts": {
+			  "defaultBrowser": "firefox"
+		     }
+        }
+      ```
+	    You can also specify it as "none", if you don't want any browser to be running.
+	* **Note**: If you provide a browser that is not available on your system
+	it will not run any browser
+* **Want moarrr ?**
+	* [Please tell me](https://github.com/shrynx/react-super-scripts/issues)
+
+## Plans
+* **Support this fork to be always in sync with `create-react-app` and `react-scripts`**
+* **Add boilerplate generator options**
+  * Give user choice to generate basic app (like the one now) or
+  generate app with redux and react-router
+
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
@@ -970,7 +1031,7 @@ This feature is experimental and still [has major usage issues](https://github.c
 
 ### Editor Integration
 
-If you use [Visual Studio Code](https://code.visualstudio.com), there is a [Jest extension](https://github.com/orta/vscode-jest) which works with Create React App out of the box. This provides a lot of IDE-like features while using a text editor: showing the status of a test run with potential fail messages inline, starting and stopping the watcher automatically, and offering one-click snapshot updates. 
+If you use [Visual Studio Code](https://code.visualstudio.com), there is a [Jest extension](https://github.com/orta/vscode-jest) which works with Create React App out of the box. This provides a lot of IDE-like features while using a text editor: showing the status of a test run with potential fail messages inline, starting and stopping the watcher automatically, and offering one-click snapshot updates.
 
 ![VS Code Jest Preview](https://cloud.githubusercontent.com/assets/49038/20795349/a032308a-b7c8-11e6-9b34-7eeac781003f.png)
 
