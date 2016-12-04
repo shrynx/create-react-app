@@ -16,6 +16,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+var customWebpackConfig = require('../utils/customWebpackConfig.js')
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
 
@@ -29,13 +30,10 @@ var publicUrl = '';
 // Get environment variables to inject into our app.
 var env = getClientEnvironment(publicUrl);
 
-// config for CSS, sass and less modules
-var cssModulesConfDev ='css?modules&minimize&importLoaders=1&sourceMap&localIdentName=[name]---[local]---[hash:base64:5]'
-
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
-module.exports = {
+module.exports = customWebpackConfig({
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
   devtool: 'cheap-module-source-map',
@@ -130,8 +128,6 @@ module.exports = {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
-          /\.(sass|scss)/,
-					/\.less/,
           /\.json$/
         ],
         loader: 'url',
@@ -147,8 +143,8 @@ module.exports = {
         loader: 'babel',
         query: {
           // @remove-on-eject-begin
-          babelrc: (paths.customBabelrc ? true : false),
-          presets: [require.resolve('babel-preset-react-app'), "react-hmre"],
+          babelrc:  false,
+          presets: [require.resolve('babel-preset-react-app')],
           // @remove-on-eject-end
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -165,33 +161,6 @@ module.exports = {
         test: /\.css$/,
         loader: 'style!css?importLoaders=1!postcss'
       },
-      // Added support for sass
-      {
-          test: /\.(sass|scss)/,
-          exclude: /\.module\.(sass|scss)$/,
-          loaders: ['style', 'css', 'sass'],
-      },
-      // Added less support
-      {
-          test: /\.less/,
-          exclude: /\.module\.less$/,
-          loaders: ['style', 'css', 'less'],
-      },
-      // Added support for CSS modules
-      {
-          test: /\.module\.css$/,
-          loaders: ['style', cssModulesConfDev, 'postcss'],
-      },
-      // Added support for sass modules
-      {
-          test: /\.module\.less/,
-          loaders: ['style', cssModulesConfDev, 'sass'],
-      },
-      // Added support for less modules
-      {
-          test: /\.module\.(sass|scss)/,
-          loaders: ['style', cssModulesConfDev, 'less'],
-      },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -203,7 +172,7 @@ module.exports = {
   // @remove-on-eject-begin
   // Point ESLint to our predefined config.
   eslint: {
-    configFile: (paths.customEslint ? paths.customEslint : path.join(__dirname, '../.eslintrc')),
+    configFile: path.join(__dirname, '../.eslintrc'),
     useEslintrc: false
   },
   // @remove-on-eject-end
@@ -254,4 +223,4 @@ module.exports = {
     net: 'empty',
     tls: 'empty'
   }
-};
+}, 'dev');

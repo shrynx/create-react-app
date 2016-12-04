@@ -19,12 +19,46 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 ### Webpack
 * **Webpack Dasboard**
 	* you got to love webpack dashboard
+	* Webpack dashboard is turned on by default,but it is configurable
+	* you can disable it able it setting dashboard as false in react_super_script in package.json
+	```js
+	{
+	        ...
+
+		"react_super_scripts": {
+		 "dashbaord": false
+		}
+	 }
+     ```
 * **Hot module replacement**
 	*  supports HMR for js files too.
 * **Supports SASS and LESS**
 	* write styles in css, sass or less
 * **Webpack image loader**
 	* for compressing images
+* **Offline Plugin**
+	* You can generate service worker for your web app, simply by adding offline to true
+	in react_super_script in package.json
+	```js
+	 {
+	 ...
+
+		"react_super_scripts": {
+		 "offline": true
+		}
+	 }
+  ```
+	* **Note**: You would also need to require offline plugin in your app entry point. it is always
+	recommended to do so for production build.
+	At the end of your app entry file just add these lines of code.
+	```js
+	// src/index.js
+		...
+
+		if (process.env.NODE_ENV === 'production') {
+		  require('offline-plugin/runtime').install();
+		}
+	```
 
 ### Babel
 * **Custom babel config**
@@ -80,6 +114,24 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
       ```
 	     a default entry point (src/index.js) is already provided in package.json.
 	* **Note**: if you don't provide appEntry in your package.json it will default to scr/index.js
+
+* **Custom development browser**
+	* You can specify your browser for automatically running during development.
+	* In your package.json specify the browser to defaultBrowser property
+		of react_super_scripts field.
+	Your package.json should look like
+       ```js
+        {
+		    ...
+
+		     "react_super_scripts": {
+			  "defaultBrowser": "firefox"
+		     }
+        }
+      ```
+	    You can also specify it as "none", if you don't want any browser to be running.
+	* **Note**: If you provide a browser that is not available on your system
+	it will not run any browser
 * **Want moarrr ?**
 	* [Please tell me](https://github.com/shrynx/react-super-scripts/issues)
 

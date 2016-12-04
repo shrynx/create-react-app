@@ -15,6 +15,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
+var customWebpackConfig = require('../utils/customWebpackConfig.js')
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var url = require('url');
 var paths = require('./paths');
@@ -58,9 +59,7 @@ if (env['process.env'].NODE_ENV !== '"production"') {
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 
-// config for CSS, sass and less modules
-var cssModulesConf = 'css?modules&minimize&importLoaders=1'
-module.exports = {
+module.exports = customWebpackConfig({
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -136,9 +135,6 @@ module.exports = {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
-          /\.(sass|scss)/,
-					/\.less/,
-          /\.(jpe?g|png|gif|svg)$/i,
           /\.json$/
         ],
         loader: 'url',
@@ -154,7 +150,7 @@ module.exports = {
         loader: 'babel',
         // @remove-on-eject-begin
         query: {
-          babelrc: (paths.customBabelrc ? true : false),
+          babelrc: false,
           presets: [require.resolve('babel-preset-react-app')],
         },
         // @remove-on-eject-end
@@ -176,41 +172,6 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?importLoaders=1!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
-      // Added support for sass
-      {
-         test: /\.(sass|scss)/,
-         exclude: /\.module\.(sass|scss)$/,
-         loader: ExtractTextPlugin.extract(['css?minimize', 'sass']),
-      },
-      // Added support for less
-      {
-          test: /\.less/,
-          exclude: /\.module\.less$/,
-          loader: ExtractTextPlugin.extract(['css?minimize', 'less']),
-      },
-			// Added support for CSS modules
-			{
-				 test: /\.module\.css$/,
-				 loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'postcss']),
-			},
-			// Added support for sass modules
-      {
-          test: /\.module\.(sass|scss)/,
-          loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'sass']),
-      },
-			// Added support for less modules
-			{
-          test: /\.module\.less/,
-          loader: ExtractTextPlugin.extract('style', [cssModulesConf, 'less']),
-      },
-			// Added image support
-			{
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: [
-            'file?hash=sha512&digest=hex&name=static/media/[name].[hash:8].[ext]',
-            'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
-        ]
-    	},
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
       {
@@ -224,7 +185,7 @@ module.exports = {
   eslint: {
     // TODO: consider separate config for production,
     // e.g. to enable no-console and no-debugger only in production.
-    configFile: (paths.customEslint ? paths.customEslint : path.join(__dirname, '../.eslintrc')),
+    configFile: path.join(__dirname, '../.eslintrc'),
     useEslintrc: false
   },
   // @remove-on-eject-end
@@ -305,4 +266,4 @@ module.exports = {
     net: 'empty',
     tls: 'empty'
   }
-};
+},'prod');
