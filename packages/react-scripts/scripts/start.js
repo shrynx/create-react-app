@@ -25,19 +25,19 @@ var httpProxyMiddleware = require('http-proxy-middleware');
 var detect = require('detect-port');
 var clearConsole = require('react-dev-utils/clearConsole');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-// var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+var formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 var getProcessForPort = require('react-dev-utils/getProcessForPort');
 var openBrowser = require('../utils/openBrowser');
 var prompt = require('react-dev-utils/prompt');
-// var pathExists = require('path-exists');
+var pathExists = require('path-exists');
 var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 var Dashboard = require('webpack-dashboard');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 // importing custom config function
 var superScriptConfigOptions = require('../utils/superScriptConfigOptions')
-// var useYarn = pathExists.sync(paths.yarnLockFile);
-// var cli = useYarn ? 'yarn' : 'npm';
+var useYarn = pathExists.sync(paths.yarnLockFile);
+var cli = useYarn ? 'yarn' : 'npm';
 var isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
@@ -47,6 +47,8 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // custom port
 var customPort = superScriptConfigOptions('port');
+// check if dashboard is set to true
+var isDashboardTrue = superScriptConfigOptions('dashboard');
 
 // Tools like Cloud9 rely on this.
 var DEFAULT_PORT = process.env.PORT || customPort || 3000;
@@ -67,84 +69,91 @@ if (isSmokeTest) {
 }
 
 function setupCompiler(host, port, protocol) {
-  // Create new dashboard for webpack-dashboard
-  var dashboard = new Dashboard();
-  // push the dashboard plugin to config before compiling
-  config.plugins.push(new DashboardPlugin(dashboard.setData))
-  // "Compiler" is a low-level interface to Webpack.
-  // It lets us listen to some events and provide our own custom messages.
-  compiler = webpack(config, handleCompile);
+  if (isDashboardTrue) {
+    // Create new dashboard for webpack-dashboard
+    var dashboard = new Dashboard();
+    // push the dashboard plugin to config before compiling
+    config.plugins.push(new DashboardPlugin(dashboard.setData))
+		// "Compiler" is a low-level interface to Webpack.
+		// It lets us listen to some events and provide our own custom messages.
+		compiler = webpack(config, handleCompile);
 
-  // "invalid" event fires when you have changed a file, and Webpack is
-  // recompiling a bundle. WebpackDevServer takes care to pause serving the
-  // bundle, so if you refresh, it'll wait instead of serving the old one.
-  // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
+  } else {
+		// "Compiler" is a low-level interface to Webpack.
+    // It lets us listen to some events and provide our own custom messages.
+    compiler = webpack(config, handleCompile);
 
-  // Disabling create-react-app custom messages
-  // compiler.plugin('invalid', function() {
-  //   if (isInteractive) {
-  //     clearConsole();
-  //   }
-  //   console.log('Compiling...');
-  // });
-  //
-  // var isFirstCompile = true;
-  //
-  // // "done" event fires when Webpack has finished recompiling the bundle.
-  // // Whether or not you have warnings or errors, you will get this event.
-  // compiler.plugin('done', function(stats) {
-  //   if (isInteractive) {
-  //     clearConsole();
-  //   }
-  //
-  //   // We have switched off the default Webpack output in WebpackDevServer
-  //   // options so we are going to "massage" the warnings and errors and present
-  //   // them in a readable focused way.
-  //   var messages = formatWebpackMessages(stats.toJson({}, true));
-  //   var isSuccessful = !messages.errors.length && !messages.warnings.length;
-  //   var showInstructions = isSuccessful && (isInteractive || isFirstCompile);
-  //
-  //   if (isSuccessful) {
-  //     console.log(chalk.green('Compiled successfully!'));
-  //   }
-  //
-  //   if (showInstructions) {
-  //     console.log();
-  //     console.log('The app is running at:');
-  //     console.log();
-  //     console.log('  ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
-  //     console.log();
-  //     console.log('Note that the development build is not optimized.');
-  //     console.log('To create a production build, use ' + chalk.cyan(cli + ' run build') + '.');
-  //     console.log();
-  //     isFirstCompile = false;
-  //   }
-  //
-  //   // If errors exist, only show errors.
-  //   if (messages.errors.length) {
-  //     console.log(chalk.red('Failed to compile.'));
-  //     console.log();
-  //     messages.errors.forEach(message => {
-  //       console.log(message);
-  //       console.log();
-  //     });
-  //     return;
-  //   }
-  //
-  //   // Show warnings if no errors were found.
-  //   if (messages.warnings.length) {
-  //     console.log(chalk.yellow('Compiled with warnings.'));
-  //     console.log();
-  //     messages.warnings.forEach(message => {
-  //       console.log(message);
-  //       console.log();
-  //     });
-  //     // Teach some ESLint tricks.
-  //     console.log('You may use special comments to disable some warnings.');
-  //     console.log('Use ' + chalk.yellow('// eslint-disable-next-line') + ' to ignore the next line.');
-  //     console.log('Use ' + chalk.yellow('/* eslint-disable */') + ' to ignore all warnings in a file.');
-  //   }
-  // });
+    // "invalid" event fires when you have changed a file, and Webpack is
+    // recompiling a bundle. WebpackDevServer takes care to pause serving the
+    // bundle, so if you refresh, it'll wait instead of serving the old one.
+    // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
+
+    // Disabling create-react-app custom messages
+    compiler.plugin('invalid', function() {
+      if (isInteractive) {
+        clearConsole();
+      }
+      console.log('Compiling...');
+    });
+
+    var isFirstCompile = true;
+
+    // "done" event fires when Webpack has finished recompiling the bundle.
+    // Whether or not you have warnings or errors, you will get this event.
+    compiler.plugin('done', function(stats) {
+      if (isInteractive) {
+        clearConsole();
+      }
+
+      // We have switched off the default Webpack output in WebpackDevServer
+      // options so we are going to "massage" the warnings and errors and present
+      // them in a readable focused way.
+      var messages = formatWebpackMessages(stats.toJson({}, true));
+      var isSuccessful = !messages.errors.length && !messages.warnings.length;
+      var showInstructions = isSuccessful && (isInteractive || isFirstCompile);
+
+      if (isSuccessful) {
+        console.log(chalk.green('Compiled successfully!'));
+      }
+
+      if (showInstructions) {
+        console.log();
+        console.log('The app is running at:');
+        console.log();
+        console.log('  ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
+        console.log();
+        console.log('Note that the development build is not optimized.');
+        console.log('To create a production build, use ' + chalk.cyan(cli + ' run build') + '.');
+        console.log();
+        isFirstCompile = false;
+      }
+
+      // If errors exist, only show errors.
+      if (messages.errors.length) {
+        console.log(chalk.red('Failed to compile.'));
+        console.log();
+        messages.errors.forEach(message => {
+          console.log(message);
+          console.log();
+        });
+        return;
+      }
+
+      // Show warnings if no errors were found.
+      if (messages.warnings.length) {
+        console.log(chalk.yellow('Compiled with warnings.'));
+        console.log();
+        messages.warnings.forEach(message => {
+          console.log(message);
+          console.log();
+        });
+        // Teach some ESLint tricks.
+        console.log('You may use special comments to disable some warnings.');
+        console.log('Use ' + chalk.yellow('// eslint-disable-next-line') + ' to ignore the next line.');
+        console.log('Use ' + chalk.yellow('/* eslint-disable */') + ' to ignore all warnings in a file.');
+      }
+    });
+  }
 }
 
 // We need to provide a custom onError function for httpProxyMiddleware.
@@ -153,16 +162,18 @@ function onProxyError(proxy) {
   return function(err, req, res){
     var host = req.headers && req.headers.host;
     // hiding proxy error messages till webpack dashboard allows message pushing
+    if (!isDashboardTrue) {
+      console.log(
+        chalk.red('Proxy error:') + ' Could not proxy request ' + chalk.cyan(req.url) +
+        ' from ' + chalk.cyan(host) + ' to ' + chalk.cyan(proxy) + '.'
+      );
+      console.log(
+        'See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (' +
+        chalk.cyan(err.code) + ').'
+      );
+      console.log();
+    }
 
-    // console.log(
-    //   chalk.red('Proxy error:') + ' Could not proxy request ' + chalk.cyan(req.url) +
-    //   ' from ' + chalk.cyan(host) + ' to ' + chalk.cyan(proxy) + '.'
-    // );
-    // console.log(
-    //   'See https://nodejs.org/api/errors.html#errors_common_system_errors for more information (' +
-    //   chalk.cyan(err.code) + ').'
-    // );
-    // console.log();
 
     // And immediately send the proper error response to the client.
     // Otherwise, the request will eventually timeout with ERR_EMPTY_RESPONSE on the client side.

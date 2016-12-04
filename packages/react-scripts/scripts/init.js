@@ -37,6 +37,8 @@ module.exports = function(appPath, appName, verbose, originalDirectory) {
   appPackage.react_super_scripts.appEntry = 'src/index.js'
   // add port to react_super_scripts
   appPackage.react_super_scripts.port = '3000'
+	// add dashbaord to react_super_scripts
+	appPackage.react_super_scripts.dashboard = true
 
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
