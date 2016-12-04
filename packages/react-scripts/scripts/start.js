@@ -34,7 +34,8 @@ var config = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 var Dashboard = require('webpack-dashboard');
 var DashboardPlugin = require('webpack-dashboard/plugin');
-
+// importing custom config function
+var customConfig = require('../utils/customConfig')
 // var useYarn = pathExists.sync(paths.yarnLockFile);
 // var cli = useYarn ? 'yarn' : 'npm';
 var isInteractive = process.stdout.isTTY;
@@ -45,13 +46,8 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // custom port
-var customPort;
-var packageConfig = require(paths.appPackageJson);
-if (packageConfig.react_super_scripts) {
-  if (packageConfig.react_super_scripts.port) {
-      customPort = packageConfig.react_super_scripts.port
-  }
-}
+var customPort = customConfig("port");
+
 // Tools like Cloud9 rely on this.
 var DEFAULT_PORT = process.env.PORT || customPort || 3000;
 var compiler;
