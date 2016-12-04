@@ -24,23 +24,12 @@ var offlineConfig = function(param) {
         new OfflinePlugin({
           relativePaths: false,
           publicPath: '/',
-
-          // No need to cache .htaccess. See http://mxs.is/googmp,
-          // this is applied before any match in `caches` section
-          excludes: ['.htaccess'],
-
+          excludes: ['**/.*', '**/*.map','asset-manifest.json'],
           caches: {
             main: [':rest:'],
-
-            // All chunks marked as `additional`, loaded after main section
-            // and do not prevent SW to install. Change to `optional` if
-            // do not want them to be preloaded at all (cached only when first loaded)
             additional: ['*.chunk.js'],
           },
-
-          // Removes warning for about `additional` section usage
           safeToUseOptionalCaches: true,
-
           AppCache: false,
         })
       )
