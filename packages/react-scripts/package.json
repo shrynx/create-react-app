@@ -82,8 +82,5 @@
   },
   "optionalDependencies": {
     "fsevents": "1.0.14"
-  },
-  "react_super_scripts": {
-    "offline": true
   }
 }
