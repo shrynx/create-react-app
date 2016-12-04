@@ -21,43 +21,9 @@
 		}
 	}
 
-	code {
-		border-radius: 3px;
-		padding: 2px 10px;
-		font-size: 17px;
-		margin-right: 10px;
-		background-color: hsla(0,0%,87%,.34);
-		border: 1px solid #ccc;
-		color: #868686;
-	}
-
 	&-description {
 		padding: 30px;
 		text-align: center;
-
-		.intro {
-			font-weight: bold;
-			code {
-				color: black;
-			}
-
-			p {
-				font-size: medium;
-			}
-		}
-
-		.help {
-			font-size: medium;
-			margin-top: 20px;
-
-			p {
-				font-size: small;
-			}
-
-			code {
-				font-size: small;
-			}
-		}
 
 		.links {
 			text-align: center;
@@ -104,10 +70,5 @@
 				}
 			}
 		}
-	}
-
-	&-features {
-		padding-left: 25px;
-		width: 60%;
 	}
 }
