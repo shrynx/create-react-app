@@ -119,7 +119,8 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 		     }
         }
       ```
-	    You can also specify it as "none", if you don't want any browser to be running.
+	* The available options are **chrome**, **firefox**, **safari** (OSX/macOS only) and **ie** (windows only).
+        You can also specify it as "none", if you don't want any browser to be running.    
 	* **Note**: If you provide a browser that is not available on your system
 	it will not run any browser
 
