@@ -10,15 +10,15 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 	* you got to love webpack dashboard
 	* Webpack dashboard is turned on by default,but it is configurable
 	* you can disable it able it setting dashboard as false in react_super_script in package.json
-	```js
-	{
-	        ...
+       ```js
+        {
+		    ...
 
-		"react_super_scripts": {
-		 "dashbaord": false
-		}
-	 }
-     ```
+		     "react_super_scripts": {
+			  "dashboard": true
+		     }
+        }
+      ```
 * **Hot module replacement**
 	*  supports HMR for js files too.
 * **Supports SASS and LESS**
@@ -28,26 +28,27 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 * **Offline Plugin**
 	* You can generate service worker for your web app, simply by adding offline to true
 	in react_super_script in package.json
-	```js
-	 {
-	 ...
+       ```js
+        {
+		    ...
 
-		"react_super_scripts": {
-		 "offline": true
-		}
-	 }
-  ```
+		     "react_super_scripts": {
+			  "offline": true
+		     }
+        }
+      ```
 	* **Note**: You would also need to require offline plugin in your app entry point. it is always
 	recommended to do so for production build.
 	At the end of your app entry file just add these lines of code.
-	```js
-	// src/index.js
-		...
+       ```js
+        // src/index.js
+		    ...
 
-		if (process.env.NODE_ENV === 'production') {
-		  require('offline-plugin/runtime').install();
-		}
-	```
+		     if (process.env.NODE_ENV === 'production') {
+		          require('offline-plugin/runtime').install();
+		     }
+
+      ```
 
 ### Babel
 * **Custom babel config**
@@ -118,18 +119,10 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 		     }
         }
       ```
-	    You can also specify it as "none", if you don't want any browser to be running.
+	* The available options are **chrome**, **firefox**, **safari** (OSX/macOS only) and **ie** (windows only).
+        You can also specify it as "none", if you don't want any browser to be running.    
 	* **Note**: If you provide a browser that is not available on your system
 	it will not run any browser
-* **Want moarrr ?**
-	* [Please tell me](https://github.com/shrynx/react-super-scripts/issues)
-
-## Plans
-* **Support this fork to be always in sync with `create-react-app` and `react-scripts`**
-* **Add boilerplate generator options**
-  * Give user choice to generate basic app (like the one now) or
-  generate app with redux and react-router
-
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
