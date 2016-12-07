@@ -100,7 +100,7 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 	Also if you don't provide port in your package.json and nor in your environment variable it will default to 3000.
 
 * **Custom entry point**
-	* You can specify app entry point for wepack.
+	* You can specify app entry point for webpack.
 	* In your package.json specify the file path to appEntry property
 		of react_super_scripts field.
 	Your package.json should look like
