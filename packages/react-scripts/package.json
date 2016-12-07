@@ -1,6 +1,6 @@
 {
   "name": "react-super-scripts",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "Shriyans Bhatnagar <shriyansbhatnagar@gmail.com>",
   "description": "adds super powers to create-react-app and allows custom configs without ejecting",
   "repository": "shrynx/react-super-scripts",
@@ -61,6 +61,7 @@
     "node-sass": "^3.13.0",
     "object-assign": "4.1.0",
     "offline-plugin": "^4.5.2",
+    "opn": "^4.0.2",
     "path-exists": "2.1.0",
     "postcss-loader": "1.0.0",
     "promise": "7.1.1",
