@@ -63,7 +63,7 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 
 ### Babel
 * **Custom babel config**
-	* Want to use latest and greatest of javasript, no worries
+	* Want to use latest and greatest of javascript, no worries
 		include custom babel presets by installing packages
 		and adding them to **.babelrc** in root directory of the app
 	* **Note**: This will completly override existing presets.
