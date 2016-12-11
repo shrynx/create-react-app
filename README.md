@@ -1,4 +1,4 @@
-<a href='https://github.com/shrynx/react-super-scripts'><p align='center'><img src='http://i.imgur.com/ikPF2J7.png' height='100' ></p></a>
+<a href='https://github.com/shrynx/react-super-scripts'><p align='center'><img src='https://raw.githubusercontent.com/shrynx/react-super-scripts/develop/packages/react-scripts/template/src/logo.png' height='100' ></p></a>
 
 # ⚡ react <sup>-super-scripts</sup> ⚡
 
