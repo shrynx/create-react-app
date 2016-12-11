@@ -16,6 +16,16 @@ var findLoaderType = function(param, type) {
 var excludeFromUrlLoader = function(param, fileType) {
   findLoaderType(param, 'url').exclude.push(fileType)
 }
+var preactConfig = function(param) {
+  if (superScriptConfigOptions('usePreact')) {
+		var preactAlias = {
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat'
+    }
+    Object.assign(param.config.resolve.alias, preactAlias)
+  }
+  return param
+}
 
 var offlineConfig = function(param) {
   if (param.env === 'prod') {
@@ -53,7 +63,7 @@ var babelConfig = function(param) {
   if( param.env === 'dev') {
 		oldConfig.query = {
 			babelrc: (paths.customBabelrc ? true : false),
-			presets: [require.resolve('babel-preset-react-app'), "react-hmre"],
+			presets: [require.resolve('babel-preset-react-app'), 'react-hmre'],
 			cacheDirectory: true
 		}
 
@@ -174,7 +184,7 @@ var compose = function () {
 };
 
 var customWebpackConfig = function(config, env) {
-  var customConfig = compose(offlineConfig, esLintConfig, babelConfig, imageConfig, lessModulesConfig, sassModulesConfig, cssModulesConfig, lessConfig, sassConfig)
+  var customConfig = compose(preactConfig, offlineConfig, esLintConfig, babelConfig, imageConfig, lessModulesConfig, sassModulesConfig, cssModulesConfig, lessConfig, sassConfig)
   var params = {config: config, env: env}
 	return customConfig(params).config
 }
