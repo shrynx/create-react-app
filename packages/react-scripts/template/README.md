@@ -68,6 +68,27 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 	* **Note**: This will completly override existing linting rules.
 		You will need to create the .eslintrc file inside your app folder.
 
+### Preact
+* **Using preact instead of react**
+	* [Preact](https://github.com/developit/preact) is a fast, 3kB alternative to React, with the same ES2015 API,
+	* In your package.json add usePreact to react-super-scripts and set it to true.
+		Your package.json should look like
+		```js
+		{
+		    ...
+
+		    "react_super_scripts": {
+		        "usePreact": true
+		    }
+		}
+		```
+		Then uninstall ```react``` and ```react-dom``` and install ```preact``` and ```preact-compat```
+	 ```npm uninstall react react-dom && npm install --save preact preact-compat```
+	* You can keep using you existing react code without any changes, under the hood
+		webpack will alias react and react-dom to use preact.
+	* **Note**: This package uses ```preact-compat``` for maintaining compatibility with react.
+		This doesn't guarantee complete compatibility, test all features fully first.
+
 ### Others
 * **Custom port**
 	* You can specify custom port for running development server.
