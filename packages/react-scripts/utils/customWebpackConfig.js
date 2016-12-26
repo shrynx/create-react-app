@@ -27,6 +27,15 @@ var preactConfig = function(param) {
   return param
 }
 
+var addAliasConfig = function(param) {
+		var srcAlias = {
+      src: paths.appSrc
+    }
+    Object.assign(param.config.resolve.alias, srcAlias)
+
+  return param
+}
+
 var offlineConfig = function(param) {
   if (param.env === 'prod') {
     if (superScriptConfigOptions('offline')) {
@@ -184,7 +193,7 @@ var compose = function () {
 };
 
 var customWebpackConfig = function(config, env) {
-  var customConfig = compose(preactConfig, offlineConfig, esLintConfig, babelConfig, imageConfig, lessModulesConfig, sassModulesConfig, cssModulesConfig, lessConfig, sassConfig)
+  var customConfig = compose(preactConfig, addAliasConfig, offlineConfig, esLintConfig, babelConfig, imageConfig, lessModulesConfig, sassModulesConfig, cssModulesConfig, lessConfig, sassConfig)
   var params = {config: config, env: env}
 	return customConfig(params).config
 }
