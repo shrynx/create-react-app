@@ -30,6 +30,9 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 		     }
         }
       ```
+* **Faster builds**
+	* added webpack hard source in development
+	* added happyloader in production
 * **Hot module replacement**
 	*  supports HMR for js files too.
 * **Supports SASS and LESS**

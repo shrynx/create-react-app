@@ -19,6 +19,9 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
 		     }
         }
       ```
+* **Faster builds**
+	* added webpack hard source in development
+	* added happyloader in production
 * **Hot module replacement**
 	*  supports HMR for js files too.
 * **Supports SASS and LESS**
@@ -625,7 +628,7 @@ Now you are ready to use the imported React Bootstrap components within your com
 
 Flow is a static type checker that helps you write code with fewer bugs. Check out this [introduction to using static types in JavaScript](https://medium.com/@preethikasireddy/why-use-static-types-in-javascript-part-1-8382da1e0adb) if you are new to this concept.
 
-Recent versions of [Flow](http://flowtype.org/) work with Create React App projects out of the box. 
+Recent versions of [Flow](http://flowtype.org/) work with Create React App projects out of the box.
 
 To add Flow to a Create React App project, follow these steps:
 
@@ -1318,7 +1321,7 @@ GitHub Pages doesn't support routers that use the HTML5 `pushState` history API 
 ### Heroku
 
 Use the [Heroku Buildpack for Create React App](https://github.com/mars/create-react-app-buildpack).<br>
-You can find instructions in [Deploying React with Zero Configuration](https://blog.heroku.com/deploying-react-with-zero-configuration). 
+You can find instructions in [Deploying React with Zero Configuration](https://blog.heroku.com/deploying-react-with-zero-configuration).
 
 #### Resolving "Module not found: Error: Cannot resolve 'file' or 'directory'"
 
@@ -1326,7 +1329,7 @@ Sometimes `npm run build` works locally but fails during deploy via Heroku with 
 
 ```  
 remote: Failed to create a production build. Reason:
-remote: Module not found: Error: Cannot resolve 'file' or 'directory' 
+remote: Module not found: Error: Cannot resolve 'file' or 'directory'
 MyDirectory in /tmp/build_1234/src  
 ```
 
