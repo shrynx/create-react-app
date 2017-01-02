@@ -100,14 +100,15 @@ function openBrowser(url) {
     // if no browser options are configured in package.json
     if (process.platform === 'darwin') {
       runChromeOnMac(url)
-    }
-    // Fallback to opn
-    // (It will always open new tab)
-    try {
-      opn(url).catch(() => {}); // Prevent `unhandledRejection` error.
-      return true;
-    } catch (err) {
-      return false;
+    } else {
+      // Fallback to opn
+      // (It will always open new tab)
+      try {
+        opn(url).catch(() => {}); // Prevent `unhandledRejection` error.
+        return true;
+      } catch (err) {
+        return false;
+      }
     }
   }
 }
