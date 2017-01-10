@@ -1,8 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OfflinePlugin = require('offline-plugin');
 var HappyPack = require('happypack');
-var HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-var objectHash = require('node-object-hash')
 
 var paths = require('../config/paths');
 var superScriptConfigOptions = require('./superScriptConfigOptions')
@@ -22,44 +20,48 @@ var excludeFromUrlLoader = function(param, fileType) {
 }
 
 var webpackCacheLoader = function(param) {
-  if (param.env === 'prod') {
-    var oldConfig = findLoaderType(param, 'babel')
-		param.config.plugins.push(
-			new HappyPack({
-        // loaders is the only required parameter:
-        loaders: [{
-          loader: 'babel',
-          query: {
-  					babelrc: (paths.customBabelrc ? true : false),
-  					presets: [require.resolve('babel-preset-react-app')]
-				  }
-        }],
-        tempDir: './.webpack_cache/.happypack/'
-        // customize as needed, see Configuration below
-    	})
-		)
-    delete oldConfig.query
-    delete oldConfig.loader
-		oldConfig.loaders = [paths.appNodeModules +'/happypack/loader.js']
-  } else {
-    var webpackConfig = param.config
-    var configHash = function(webpackConfig) {
-      return new objectHash().hash(webpackConfig);
-    }
-		param.config.plugins.push(
-			new HardSourceWebpackPlugin({
-      cacheDirectory: '../.webpack_cache/.hardsource/'+configHash()+'/',
-      recordsPath: '../.webpack_cache/.hardsource/'+configHash()+'/records.json',
-      configHash: configHash,
-      environmentHash: {
-        root: process.cwd(),
-        directories: ['node_modules'],
-        files: ['package.json'],
-      }
-    })
-		)
-	}
-
+  if (superScriptConfigOptions('webpackCache')) {
+    if (param.env === 'prod') {
+      var oldConfig = findLoaderType(param, 'babel')
+  		param.config.plugins.push(
+  			new HappyPack({
+          // loaders is the only required parameter:
+          loaders: [{
+            loader: 'babel',
+            query: {
+    					babelrc: (paths.customBabelrc ? true : false),
+    					presets: [require.resolve('babel-preset-react-app')]
+  				  }
+          }],
+          tempDir: './.webpack_cache/prod/.happypack/',
+					verbose: false
+      	})
+  		)
+      delete oldConfig.query
+      delete oldConfig.loader
+  		oldConfig.loaders = [paths.appNodeModules +'/happypack/loader.js']
+    } else {
+      var oldConfig = findLoaderType(param, 'babel')
+  		param.config.plugins.push(
+  			new HappyPack({
+          // loaders is the only required parameter:
+          loaders: [{
+            loader: 'babel',
+            query: {
+              babelrc: (paths.customBabelrc ? true : false),
+        			presets: [require.resolve('babel-preset-react-app'), 'react-hmre'],
+        			cacheDirectory: true
+  				  }
+          }],
+          tempDir: './.webpack_cache/dev/.happypack/',
+          verbose: false
+      	})
+  		)
+      delete oldConfig.query
+      delete oldConfig.loader
+  		oldConfig.loaders = [paths.appNodeModules +'/happypack/loader.js']
+  	}
+  }
 	return param
 }
 

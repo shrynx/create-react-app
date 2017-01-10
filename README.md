@@ -31,8 +31,17 @@ Apart from features provided by [CRA](https://github.com/facebookincubator/creat
         }
       ```
 * **Faster builds**
-	* added webpack hard source in development
-	* added happyloader in production
+	* added happyloader (pre configured).
+	* you can enable it by setting webpackCache as true in react_super_script in package.json
+   ```js
+	 {
+		...
+
+		"react_super_scripts": {
+			"webpackCache": true
+		}
+	 }
+  ```
 * **Hot module replacement**
 	*  supports HMR for js files too.
 * **Supports SASS and LESS**
