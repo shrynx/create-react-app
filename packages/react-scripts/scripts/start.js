@@ -41,7 +41,7 @@ var cli = useYarn ? 'yarn' : 'npm';
 var isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appHtml, ...paths.appIndexJs.filter(f => f.indexOf('!') === -1)])) {
   process.exit(1);
 }
 
