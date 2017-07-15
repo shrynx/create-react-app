@@ -1,6 +1,6 @@
 {
   "name": "react-awesome-scripts",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "author": "Shriyans Bhatnagar <shriyansbhatnagar@gmail.com>",
   "description": "adds super powers to create-react-app and allows custom configs without ejecting",
   "repository": "shrynx/react-super-scripts",
