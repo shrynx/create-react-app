@@ -17,7 +17,13 @@ var fileExists = require('file-exists');
 // https://github.com/facebookincubator/create-react-app/issues/637
 var appDirectory = fs.realpathSync(process.cwd());
 function resolveApp(relativePath) {
-  return path.resolve(appDirectory, relativePath);
+    return relativePath instanceof Array
+    ? relativePath.map(function(relativePath){
+        return relativePath.indexOf('!') === -1
+            ? path.resolve(appDirectory, relativePath)
+            : relativePath;
+      })
+    : path.resolve(appDirectory, relativePath);
 }
 
 // We support resolving modules according to `NODE_PATH`.
@@ -46,7 +52,9 @@ var packageJson = require(resolveApp('package.json'));
 
 if (packageJson.react_super_scripts) {
   if (packageJson.react_super_scripts.appEntry) {
-      customEntryFile = packageJson.react_super_scripts.appEntry
+    customEntryFile = packageJson.react_super_scripts.appEntry instanceof Array
+      ? packageJson.react_super_scripts.appEntry
+      : [packageJson.react_super_scripts.appEntry]
   }
 }
 
@@ -59,6 +67,7 @@ var customBabelrc;
 if (fileExists(resolveApp('.babelrc'))) {
   customBabelrc = resolveApp('.babelrc')
 }
+
 // config after eject: we're in ./config/
 module.exports = {
   appBuild: resolveApp('build'),

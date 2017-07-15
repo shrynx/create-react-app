@@ -72,7 +72,7 @@ module.exports = customWebpackConfig({
   // In production, we only want to load the polyfills and the app code.
   entry: [
     require.resolve('./polyfills'),
-    paths.appIndexJs
+    ...paths.appIndexJs
   ],
   output: {
     // The build folder.
