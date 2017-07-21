@@ -2,6 +2,42 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const paths = require('../../config/paths');
+
+const updateBabelConfig = ({ config, env }) => {
+  const babelDevConfig = {
+    test: /\.(js|jsx)$/,
+    include: paths.appSrc,
+    loader: require.resolve('babel-loader'),
+    options: {
+      // @remove-on-eject-begin
+      babelrc: true,
+      presets: [require.resolve('babel-preset-react-app'), 'react-hmre'],
+      // @remove-on-eject-end
+      // This is a feature of `babel-loader` for webpack (not Babel itself).
+      // It enables caching results in ./node_modules/.cache/babel-loader/
+      // directory for faster rebuilds.
+      cacheDirectory: true,
+    },
+  };
+
+  const babelProdConfig = {
+    test: /\.(js|jsx)$/,
+    include: paths.appSrc,
+    loader: require.resolve('babel-loader'),
+    options: {
+      // @remove-on-eject-begin
+      babelrc: true,
+      presets: [require.resolve('babel-preset-react-app')],
+      // @remove-on-eject-end
+      compact: true,
+    },
+  };
+
+  return env === 'dev'
+    ? { config: updateRule(config, 'babel-loader', babelDevConfig), env }
+    : { config: updateRule(config, 'babel-loader', babelProdConfig), env };
+};
 
 const addImageLoader = ({ config, env }) => {
   const imageRule = {
@@ -255,7 +291,8 @@ const superScriptWebpackConfigurator = (config, env) => {
   const superScriptWebpackConfig = pipe(
     addSassLoader,
     addlessLoader,
-    addImageLoader
+    addImageLoader,
+    updateBabelConfig
   );
 
   return superScriptWebpackConfig(configParam).config;
