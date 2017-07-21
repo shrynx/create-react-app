@@ -4,6 +4,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const paths = require('../../config/paths');
 
+const updateEslintConfig = ({ config, env }) => {
+  config.module.rules[0].use[0].options.useEslintrc = true;
+  return { config, env };
+};
+
 const updateBabelConfig = ({ config, env }) => {
   const babelDevConfig = {
     test: /\.(js|jsx)$/,
@@ -292,7 +297,8 @@ const superScriptWebpackConfigurator = (config, env) => {
     addSassLoader,
     addlessLoader,
     addImageLoader,
-    updateBabelConfig
+    updateBabelConfig,
+    updateEslintConfig
   );
 
   return superScriptWebpackConfig(configParam).config;
