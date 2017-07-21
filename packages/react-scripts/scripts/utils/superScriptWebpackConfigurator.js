@@ -9,29 +9,8 @@ const addlessLoader = ({ config, env }) => {
     exclude: /\.module\.less$/,
     use: [
       require.resolve('style-loader'),
-      {
-        loader: require.resolve('css-loader'),
-        options: {
-          importLoaders: 1,
-        },
-      },
-      {
-        loader: require.resolve('postcss-loader'),
-        options: {
-          ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-          plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            autoprefixer({
-              browsers: [
-                '>1%',
-                'last 4 versions',
-                'Firefox ESR',
-                'not ie < 9', // React doesn't support IE8 anyway
-              ],
-            }),
-          ],
-        },
-      },
+      cssDevLoader,
+      postcssDevLoader,
       require.resolve('less-loader'),
     ],
   };
@@ -41,31 +20,8 @@ const addlessLoader = ({ config, env }) => {
     exclude: /\.module\.less$/,
     use: ExtractTextPlugin.extract({
       use: [
-        {
-          loader: require.resolve('css-loader'),
-          options: {
-            minimize: true,
-            importLoaders: 1,
-            sourceMap: true,
-          },
-        },
-        {
-          loader: require.resolve('postcss-loader'),
-          options: {
-            ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-            plugins: () => [
-              require('postcss-flexbugs-fixes'),
-              autoprefixer({
-                browsers: [
-                  '>1%',
-                  'last 4 versions',
-                  'Firefox ESR',
-                  'not ie < 9', // React doesn't support IE8 anyway
-                ],
-              }),
-            ],
-          },
-        },
+        cssProdLoader,
+        postcssProdLoader,
         {
           loader: require.resolve('less-loader'),
           options: {
@@ -88,29 +44,8 @@ const addSassLoader = ({ config, env }) => {
     exclude: /\.module\.(sass|scss)$/,
     use: [
       require.resolve('style-loader'),
-      {
-        loader: require.resolve('css-loader'),
-        options: {
-          importLoaders: 1,
-        },
-      },
-      {
-        loader: require.resolve('postcss-loader'),
-        options: {
-          ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-          plugins: () => [
-            require('postcss-flexbugs-fixes'),
-            autoprefixer({
-              browsers: [
-                '>1%',
-                'last 4 versions',
-                'Firefox ESR',
-                'not ie < 9', // React doesn't support IE8 anyway
-              ],
-            }),
-          ],
-        },
-      },
+      cssDevLoader,
+      postcssDevLoader,
       require.resolve('sass-loader'),
     ],
   };
@@ -120,31 +55,8 @@ const addSassLoader = ({ config, env }) => {
     exclude: /\.module\.(sass|scss)$/,
     use: ExtractTextPlugin.extract({
       use: [
-        {
-          loader: require.resolve('css-loader'),
-          options: {
-            minimize: true,
-            importLoaders: 1,
-            sourceMap: true,
-          },
-        },
-        {
-          loader: require.resolve('postcss-loader'),
-          options: {
-            ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
-            plugins: () => [
-              require('postcss-flexbugs-fixes'),
-              autoprefixer({
-                browsers: [
-                  '>1%',
-                  'last 4 versions',
-                  'Firefox ESR',
-                  'not ie < 9', // React doesn't support IE8 anyway
-                ],
-              }),
-            ],
-          },
-        },
+        cssProdLoader,
+        postcssProdLoader,
         {
           loader: require.resolve('sass-loader'),
           options: {
@@ -159,6 +71,58 @@ const addSassLoader = ({ config, env }) => {
   return env === 'dev'
     ? { config: addRule(config, sassDevRule), env }
     : { config: addRule(config, sassProdRule), env };
+};
+
+const cssDevLoader = {
+  loader: require.resolve('css-loader'),
+  options: {
+    importLoaders: 1,
+  },
+};
+
+const cssProdLoader = {
+  loader: require.resolve('css-loader'),
+  options: {
+    minimize: true,
+    importLoaders: 1,
+    sourceMap: true,
+  },
+};
+
+const postcssDevLoader = {
+  loader: require.resolve('postcss-loader'),
+  options: {
+    ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+    plugins: () => [
+      require('postcss-flexbugs-fixes'),
+      autoprefixer({
+        browsers: [
+          '>1%',
+          'last 4 versions',
+          'Firefox ESR',
+          'not ie < 9', // React doesn't support IE8 anyway
+        ],
+      }),
+    ],
+  },
+};
+
+const postcssProdLoader = {
+  loader: require.resolve('postcss-loader'),
+  options: {
+    ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+    plugins: () => [
+      require('postcss-flexbugs-fixes'),
+      autoprefixer({
+        browsers: [
+          '>1%',
+          'last 4 versions',
+          'Firefox ESR',
+          'not ie < 9', // React doesn't support IE8 anyway
+        ],
+      }),
+    ],
+  },
 };
   
 /**
