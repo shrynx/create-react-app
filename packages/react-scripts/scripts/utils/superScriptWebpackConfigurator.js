@@ -1,5 +1,87 @@
 'use strict';
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+
+const addSassLoader = ({ config, env }) => {
+  const sassDevRule = {
+    test: /\.(sass|scss)$/,
+    exclude: /\.module\.(sass|scss)$/,
+    use: [
+      require.resolve('style-loader'),
+      {
+        loader: require.resolve('css-loader'),
+        options: {
+          importLoaders: 1,
+        },
+      },
+      {
+        loader: require.resolve('postcss-loader'),
+        options: {
+          ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+          plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            autoprefixer({
+              browsers: [
+                '>1%',
+                'last 4 versions',
+                'Firefox ESR',
+                'not ie < 9', // React doesn't support IE8 anyway
+              ],
+            }),
+          ],
+        },
+      },
+      require.resolve('sass-loader'),
+    ],
+  };
+
+  const sassProdRule = {
+    test: /\.(sass|scss)$/,
+    exclude: /\.module\.(sass|scss)$/,
+    use: ExtractTextPlugin.extract({
+      use: [
+        {
+          loader: require.resolve('css-loader'),
+          options: {
+            minimize: true,
+            importLoaders: 1,
+            sourceMap: true,
+          },
+        },
+        {
+          loader: require.resolve('postcss-loader'),
+          options: {
+            ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+            plugins: () => [
+              require('postcss-flexbugs-fixes'),
+              autoprefixer({
+                browsers: [
+                  '>1%',
+                  'last 4 versions',
+                  'Firefox ESR',
+                  'not ie < 9', // React doesn't support IE8 anyway
+                ],
+              }),
+            ],
+          },
+        },
+        {
+          loader: require.resolve('sass-loader'),
+          options: {
+            sourceMap: true,
+          },
+        },
+      ],
+      fallback: require.resolve('style-loader'),
+    }),
+  };
+
+  return env === 'dev'
+    ? { config: addRule(config, sassDevRule), env }
+    : { config: addRule(config, sassProdRule), env };
+};
+  
 /**
  * add specific rule to webpack config
  * @param {Object} config 
@@ -72,7 +154,7 @@ const pipe = (headFn, ...restFns) => (...args) =>
 
 const superScriptWebpackConfigurator = (config, env) => {
   const configParam = { config, env };
-  const superScriptWebpackConfig = pipe(param => param);
+  const superScriptWebpackConfig = pipe(addSassLoader);
 
   return superScriptWebpackConfig(configParam).config;
 };
