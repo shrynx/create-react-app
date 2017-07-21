@@ -3,6 +3,18 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const paths = require('../../config/paths');
+const superScriptConfigOptions = require('./superScriptConfigOption');
+
+const addPreactAlias = ({ config, env }) => {
+  if (superScriptConfigOptions('usePreact')) {
+    const preactAlias = {
+      react: 'preact-compat',
+      'react-dom': 'preact-compat',
+    };
+    Object.assign(config.resolve.alias, preactAlias);
+  }
+  return { config, env };
+};
 
 const updateEslintConfig = ({ config, env }) => {
   config.module.rules[0].use[0].options.useEslintrc = true;
@@ -298,7 +310,8 @@ const superScriptWebpackConfigurator = (config, env) => {
     addlessLoader,
     addImageLoader,
     updateBabelConfig,
-    updateEslintConfig
+    updateEslintConfig,
+    addPreactAlias
   );
 
   return superScriptWebpackConfig(configParam).config;
