@@ -54,6 +54,7 @@
     "sw-precache-webpack-plugin": "0.11.3",
     "url-loader": "0.5.9",
     "webpack": "2.6.1",
+    "webpack-dashboard": "^0.4.0", 
     "webpack-dev-server": "2.5.1",
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.3"
@@ -64,5 +65,8 @@
   },
   "optionalDependencies": {
     "fsevents": "1.1.2"
+  },
+  "react_super_scripts": {
+    "dashboard": true
   }
 }
