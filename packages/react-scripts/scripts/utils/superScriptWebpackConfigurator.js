@@ -3,6 +3,45 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
+const addImageLoader = ({ config, env }) => {
+  const imageRule = {
+    test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+    loaders: [
+      {
+        loader: require.resolve('file-loader'),
+        query: {
+          name: 'static/media/[name].[hash:8].[ext]',
+        },
+      },
+      {
+        loader: require.resolve('image-webpack-loader'),
+        query: {
+          progressive: true,
+          optimizationLevel: 7,
+          interlaced: false,
+          pngquant: {
+            quality: '65-90',
+            speed: 4,
+          },
+          svgo: {
+            plugins: [
+              {
+                removeViewBox: false,
+              },
+              {
+                removeEmptyAttrs: false,
+              },
+            ],
+          },
+        },
+      },
+    ],
+  };
+  return env === 'prod'
+    ? { config: updateRule(config, 'url-loader', imageRule), env }
+    : { config, env };
+};
+
 const addlessLoader = ({ config, env }) => {
   const lessDevRule = {
     test: /\.less$/,
@@ -124,7 +163,7 @@ const postcssProdLoader = {
     ],
   },
 };
-  
+
 /**
  * add specific rule to webpack config
  * @param {Object} config 
@@ -213,7 +252,11 @@ const pipe = (headFn, ...restFns) => (...args) =>
 
 const superScriptWebpackConfigurator = (config, env) => {
   const configParam = { config, env };
-  const superScriptWebpackConfig = pipe(addSassLoader, addlessLoader);
+  const superScriptWebpackConfig = pipe(
+    addSassLoader,
+    addlessLoader,
+    addImageLoader
+  );
 
   return superScriptWebpackConfig(configParam).config;
 };

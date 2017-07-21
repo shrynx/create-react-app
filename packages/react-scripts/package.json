@@ -43,6 +43,7 @@
     "file-loader": "0.11.2",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
+    "image-webpack-loader": "^3.3.1",
     "jest": "20.0.4",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
