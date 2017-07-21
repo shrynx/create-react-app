@@ -144,12 +144,22 @@ const findRule = (config, loaderType) => {
   const rules = config.module.rules[1].oneOf;
   const useFilteredRules = rules.filter(rule => rule.use);
 
-  const loaderRule = rules.filter(rule => rule.loader === loaderType).shift();
+  const loaderRule = rules
+    .filter(
+      rule =>
+        typeof rule.loader === 'string' && rule.loader.includes(loaderType)
+    )
+    .shift();
 
   const useRule = useFilteredRules
     .filter(rule =>
       rule.use.includes(
-        rule.use.filter(usedLoader => usedLoader === loaderType).shift()
+        rule.use
+          .filter(
+            useLoader =>
+              typeof useLoader === 'string' && useLoader.includes(loaderType)
+          )
+          .shift()
       )
     )
     .shift();
@@ -157,7 +167,13 @@ const findRule = (config, loaderType) => {
   const useLoaderRule = useFilteredRules
     .filter(rule =>
       rule.use.includes(
-        rule.use.filter(usedLoader => usedLoader.loader === loaderType).shift()
+        rule.use
+          .filter(
+            useLoader =>
+              typeof useLoader.loader === 'string' &&
+              useLoader.loader.includes(loaderType)
+          )
+          .shift()
       )
     )
     .shift();
