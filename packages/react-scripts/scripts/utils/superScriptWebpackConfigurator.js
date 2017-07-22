@@ -2,8 +2,63 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const paths = require('../../config/paths');
 const superScriptConfigOptions = require('./superScriptConfigOption');
+
+const addVendorSplitting = ({ config, env }) => {
+  const checkIfVendorFileExists = fs.existsSync(paths.appVendorJs);
+  if (env === 'prod' && checkIfVendorFileExists) {
+    // Add the entry point based on whether vendor file exists.
+    config.entry = {
+      vendor: [require.resolve('../../config/polyfills'), paths.appVendorJs],
+      main: paths.appIndexJs,
+    };
+
+    const vendorChcukedConfig = addPluginAtStart(config, [
+      new webpack.NamedModulesPlugin(),
+      new webpack.NamedChunksPlugin(chunk => {
+        if (chunk.name) {
+          return chunk.name;
+        }
+        return chunk.modules
+          .map(m => path.relative(m.context, m.request))
+          .join('_');
+      }),
+      new webpack.optimize.CommonsChunkPlugin(
+        // generate a seperate chucks for vendor
+        // else don't generate any common chunck
+        {
+          name: 'vendor',
+          minChunks: Infinity,
+        }
+      ),
+      // We need to extract out the runtime into a separate manifest file.
+      // more info: https://webpack.js.org/guides/code-splitting-libraries/#manifest-file
+      new webpack.optimize.CommonsChunkPlugin(
+        // generate a seperate chucks for manifest file
+        // else don't generate any common chunck
+        {
+          name: 'manifest',
+        }
+      ),
+    ]);
+
+    // This ensures that the browser will load the scripts in parallel,
+    // but execute them in the order they appear in the document.
+    const configWithVendorAndDefer = addPluginAtEnd(vendorChcukedConfig, [
+      new ScriptExtHtmlWebpackPlugin({
+        defaultAttribute: 'defer',
+      }),
+    ]);
+
+    return { config: configWithVendorAndDefer, env };
+  }
+  return { config, env };
+};
 
 const addPreactAlias = ({ config, env }) => {
   if (superScriptConfigOptions('usePreact')) {
@@ -331,7 +386,8 @@ const superScriptWebpackConfigurator = (config, env) => {
     addImageLoader,
     updateBabelConfig,
     updateEslintConfig,
-    addPreactAlias
+    addPreactAlias,
+    addVendorSplitting
   );
 
   return superScriptWebpackConfig(configParam).config;

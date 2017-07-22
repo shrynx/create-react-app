@@ -64,6 +64,7 @@ module.exports = {
   appIndexJs: resolveApp(
     customEntryFile(resolveApp('package.json'), '') || 'src/index.js'
   ),
+  appVendorJs: resolveApp('src/vendor.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -86,6 +87,7 @@ module.exports = {
   appIndexJs: resolveApp(
     customEntryFile(resolveApp('package.json'), '') || 'src/index.js'
   ),
+  appVendorJs: resolveApp('src/vendor.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -119,6 +121,7 @@ if (
       customEntryFile(resolveOwn('package.json'), 'template/') ||
         'template/src/index.js'
     ),
+    appVendorJs: resolveOwn('template/src/vendor.js'),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
     yarnLockFile: resolveOwn('template/yarn.lock'),
