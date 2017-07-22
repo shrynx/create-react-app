@@ -1,14 +1,15 @@
 {
-  "name": "react-scripts",
-  "version": "1.0.10",
-  "description": "Configuration and scripts for Create React App.",
-  "repository": "facebookincubator/create-react-app",
+  "name": "react-super-scripts",
+  "version": "0.2.4",
+  "author": "Shriyans Bhatnagar <shriyansbhatnagar@gmail.com>",
+  "description": "adds super powers to create-react-app and allows custom configs without ejecting",
+  "repository": "shrynx/react-super-scripts",
   "license": "BSD-3-Clause",
   "engines": {
     "node": ">=6"
   },
   "bugs": {
-    "url": "https://github.com/facebookincubator/create-react-app/issues"
+    "url": "https://github.com/shrynx/react-super-scripts/issues"
   },
   "files": [
     "bin",
