@@ -33,7 +33,7 @@ class App extends Component {
               <div className="npm">npm</div>
             </a>
             <a
-              href="https://react-super-scripts.surge.sh"
+              href="https://react-super-scripts.netlify.com"
               target="_blank"
               rel="noopener noreferrer"
             >
