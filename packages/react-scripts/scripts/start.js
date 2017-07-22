@@ -40,6 +40,11 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const paths = require('../config/paths');
 const config = require('../config/webpack.config.dev');
 const createDevServerConfig = require('../config/webpackDevServer.config');
+// import super script config function
+const superScriptConfigOption = require('./utils/superScriptConfigOption');
+// import webpack dashboard
+const Dashboard = require('webpack-dashboard');
+const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
@@ -53,6 +58,10 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 
+// check super script config options
+// check if dashboard is set to true
+const isDashboardTrue = superScriptConfigOption('dashboard');
+
 // We attempt to use the default port but if it is busy, we offer the user to
 // run on a different port. `detect()` Promise resolves to the next free port.
 choosePort(HOST, DEFAULT_PORT)
@@ -64,8 +73,19 @@ choosePort(HOST, DEFAULT_PORT)
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
-    // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    // if dashboard is set in super script then use webpack dashboard
+    // else Create a webpack compiler that is configured with custom messages.
+    const compiler = (condition => {
+      if (condition) {
+        const dashboard = new Dashboard();
+        config.plugins.push(new DashboardPlugin(dashboard.setData));
+        // Create a webpack compiler that is configured.
+        return webpack(config);
+      } else {
+        return createCompiler(webpack, config, appName, urls, useYarn);
+      }
+    })(isDashboardTrue);
+
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);

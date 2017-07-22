@@ -48,13 +48,23 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+const customEntryFile = (appPackageJson, basePath) =>
+  require(appPackageJson).react_super_scripts
+    ? require(appPackageJson).react_super_scripts.appEntry
+      ? basePath + require(appPackageJson).react_super_scripts.appEntry
+      : undefined
+    : undefined;
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appIndexJs: resolveApp(
+    customEntryFile(resolveApp('package.json'), '') || 'src/index.js'
+  ),
+  appVendorJs: resolveApp('src/vendor.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -74,7 +84,10 @@ module.exports = {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appIndexJs: resolveApp(
+    customEntryFile(resolveApp('package.json'), '') || 'src/index.js'
+  ),
+  appVendorJs: resolveApp('src/vendor.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -104,7 +117,11 @@ if (
     appBuild: resolveOwn('../../build'),
     appPublic: resolveOwn('template/public'),
     appHtml: resolveOwn('template/public/index.html'),
-    appIndexJs: resolveOwn('template/src/index.js'),
+    appIndexJs: resolveOwn(
+      customEntryFile(resolveOwn('package.json'), 'template/') ||
+        'template/src/index.js'
+    ),
+    appVendorJs: resolveOwn('template/src/vendor.js'),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
     yarnLockFile: resolveOwn('template/yarn.lock'),

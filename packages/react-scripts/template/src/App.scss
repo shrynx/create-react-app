@@ -1,0 +1,65 @@
+.app {
+  width: 100%;
+  .header {
+    align-items: center;
+    background-color: #2a2c26;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    .logo {
+      height: 80px;
+    }
+    .title {
+      color: #fff;
+      font-weight: normal;
+      margin-top: 40px;
+    }
+    .subtitle {
+      color: #fff;
+      text-align: center;
+    }
+  }
+  .description {
+    margin: 20% 5% 0;
+    .links {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: center;
+      a {
+        color: #fff;
+        text-decoration: none;
+        div {
+          flex-basis: auto;
+          width: 110px;
+          height: 40px;
+          line-height: 40px;
+          border-radius: 5px;
+        }
+      }
+      .npm {
+        background: #cb3837;
+        &:hover,
+        :active {
+          background: #b21f1e;
+        }
+      }
+      .github {
+        background: #474c55;
+        &:hover,
+        :active {
+          background: #2e333c;
+        }
+      }
+      .readme {
+        background: #07a617;
+        &:hover,
+        :active {
+          background: #007300;
+        }
+      }
+    }
+  }
+}
