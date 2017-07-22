@@ -218,6 +218,26 @@ const postcssProdLoader = {
 };
 
 /**
+ * add a new plugin to begining of plugin list
+ * @param {Object} config 
+ * @param {Object} plugin 
+ */
+const addPluginAtStart = (config, plugin) => {
+  config.plugins.splice(0, 0, ...plugin);
+  return config;
+};
+
+/**
+ * add a new plugin to end of plugin list
+ * @param {Object} config 
+ * @param {Object} plugin 
+ */
+const addPluginAtEnd = (config, plugin) => {
+  config.plugins.push(...plugin);
+  return config;
+};
+
+/**
  * add specific rule to webpack config
  * @param {Object} config 
  * @param {Object} rule 
