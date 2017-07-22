@@ -5,9 +5,30 @@ const autoprefixer = require('autoprefixer');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const chalk = require('chalk');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const paths = require('../../config/paths');
 const superScriptConfigOptions = require('./superScriptConfigOption');
+
+const addBuildProgressBar = ({ config, env }) => {
+  if (env === 'prod') {
+    return {
+      config: addPluginAtEnd(config, [
+        // show progress during build
+        new ProgressBarPlugin({
+          format: `${chalk.cyan.bold('  build ')}${chalk.green.bold(
+            ' :percent'
+          )} ${chalk.bold('[')}:bar${chalk.bold(']')} ${chalk.yellow.bold(
+            ':elapsed'
+          )} secs`,
+        }),
+      ]),
+      env,
+    };
+  }
+  return { config, env };
+};
 
 const addVendorSplitting = ({ config, env }) => {
   const checkIfVendorFileExists = fs.existsSync(paths.appVendorJs);
@@ -387,7 +408,8 @@ const superScriptWebpackConfigurator = (config, env) => {
     updateBabelConfig,
     updateEslintConfig,
     addPreactAlias,
-    addVendorSplitting
+    addVendorSplitting,
+    addBuildProgressBar
   );
 
   return superScriptWebpackConfig(configParam).config;

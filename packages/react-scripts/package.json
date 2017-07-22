@@ -52,6 +52,7 @@
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "postcss-loader": "2.0.6",
+    "progress-bar-webpack-plugin": "^1.10.0",
     "promise": "7.1.1",
     "react-dev-utils": "^3.0.2",
     "react-error-overlay": "^1.0.9",
