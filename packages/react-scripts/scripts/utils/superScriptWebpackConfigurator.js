@@ -106,7 +106,10 @@ const updateBabelConfig = ({ config, env }) => {
     options: {
       // @remove-on-eject-begin
       babelrc: true,
-      presets: [require.resolve('babel-preset-react-app'), 'react-hmre'],
+      presets: [
+        require.resolve('babel-preset-react-app'),
+        require.resolve('babel-preset-react-hmre'),
+      ],
       // @remove-on-eject-end
       // This is a feature of `babel-loader` for webpack (not Babel itself).
       // It enables caching results in ./node_modules/.cache/babel-loader/
