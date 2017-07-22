@@ -72,6 +72,7 @@ const addVendorSplitting = ({ config, env }) => {
     // but execute them in the order they appear in the document.
     const configWithVendorAndDefer = addPluginAtEnd(vendorChcukedConfig, [
       new ScriptExtHtmlWebpackPlugin({
+        inline: 'manifest',
         defaultAttribute: 'defer',
       }),
     ]);
